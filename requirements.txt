@@ -1,0 +1,18 @@
+# Minimal requirements for ft_linear_regression.
+# Transitive dependencies (numpy, pillow, dateutil, ...) are pulled in
+# automatically by pip when installing the packages below.
+
+# Runtime
+matplotlib==3.10.9
+pandas==2.3.3
+
+# Dev / norm (flake8 pulls pycodestyle, pyflakes and mccabe itself)
+flake8==7.3.0
+
+# NOTE: for a deployed product you would freeze the ENTIRE environment,
+# including all transitive deps, for byte-identical reproducibility:
+#     pip freeze > requirements.txt
+# or generate a clean tree view / lock-style file with:
+#     pip install pipdeptree && pipdeptree
+#     pip install pip-tools && pip-compile requirements.in
+
