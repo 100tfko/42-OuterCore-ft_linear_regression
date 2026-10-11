@@ -2,7 +2,7 @@ import pandas as pd
 import math
 from pathlib import Path
 from typing import Optional
-from setup import MAX_ITERATIONS
+from setup import MAX_ITERATIONS, EPSILON
 
 
 def load_csv(path: str) -> Optional[pd.DataFrame]:
