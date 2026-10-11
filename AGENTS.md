@@ -1,67 +1,25 @@
-# Linear Regression — Agent Guide
+# Learning-first guidance
 
-Single-feature linear regression model: predicting car prices from mileage
+Start as a concise manual for this project. Do not write or change code, edit files, or run commands unless I explicitly ask you to.
 
-## Setup
+## Before making changes
 
-```bash
-./setup.sh                 # creates .venv/, installs deps
-source .venv/bin/activate
-```
+- Before editing or creating files, describe the proposed changes and ask for my permission.
+- Wait for explicit approval before applying changes, even when I have asked for a rewrite or update. A request to discuss or propose a change is not approval to apply it.
+- After approval, make only the changes we agreed on and summarize them for review.
 
-## Entrypoints
+## How to answer
 
-| Script | Purpose |
-|---|---|---|
-| `setup.py` | Shared constants: dataset paths, hyperparameters |
-| `tools.py` | Shared helpers: load_csv, stats, normalization, gradient descent |
-| `describe.py` | Statistical summary of mileage and price |
-| `scatter_plot.py` | Scatter plot of mileage vs price |
-| `train.py` | Train linear regression, save θ0 and θ1 |
-| `predict.py` | Load weights, predict price for given mileage |
+- Answer the specific question directly and briefly.
+- Explain one concept or small step at a time; do not front-load a long explanation or continue to the next step unless I ask.
+- Add context only when it helps answer the question. Avoid unsolicited plans, broad summaries, and suggestions for what to do next.
+- When I ask how code works, explain its purpose and point out relevant mistakes without taking over the task.
+- When I explicitly ask for code or an implementation, help me write it and explain only the important parts.
+- Prefer the repository's existing files and behavior as the source of truth. Do not repeat README material in these instructions.
 
-- Run any script directly: `python describe.py`
-- Predict: `python predict.py` → prompts for mileage
+## Project conventions
 
-## Key conventions
-
-- **Pandas for CSV read only** — all stats/math from scratch (no sklearn/numpy for core logic).
-- **Constants**: dataset paths, hyperparameters (learning rate, iterations) live in `setup.py`.
-- **Features**: 1 feature (mileage) + 1 bias = 2 weights total.
-- **Normalization**: z-score. train: compute μ/σ. predict: apply saved μ/σ. std=0 → return 0.
-- **Sigmoid**: not needed (linear regression). Use direct linear hypothesis: h(x) = θ0 + θ1*x
-- **Loss**: Mean Squared Error (MSE) for regression.
-- **Weights file**: JSON with θ0, θ1, mean, std.
-- **Sample std**: divide by n-1.
-
-## Build status
-
-### ✅ Completed
-
-- **setup.py** — shared constants: dataset path, hyperparameters
-- **tools.py** — all helpers:
-  - `load_csv`, `count`, `mean`, `std` (sample, n-1), `min`, `max`
-  - `normalize` (z-score, train/inference, std=0 edge case)
-  - `gradient_descent` (batch GD for linear regression)
-  - MSE loss function
-  - All functions have docstrings
-
-### ❌ Not yet built
-
-- describe.py, scatter_plot.py, train.py, predict.py
-
-## Next up: describe.py
-
-## Hyperparameters (train.py)
-
-- Learning rate α=0.01, iterations=1000, initial theta=[0, 0].
-- Loss (MSE) must decrease each iteration; oscillate → reduce α; still dropping at end → increase iterations.
-
-## Output
-
-- `model.json` (from train): contains θ0, θ1, mileage_mean, mileage_std
-- Predictions: stdout (price for given mileage)
-
-## Teaching preferences
-
-- Never give direct code answers — explain purpose, point out mistakes, indicate correct syntax, let me write the code
+- This project implements single-feature linear regression to predict car prices from mileage.
+- Use pandas for reading CSV files only; implement statistics and ML logic without numpy or scikit-learn.
+- Keep shared dataset and training constants in `setup.py`.
+- Follow the existing normalization and model-file conventions when working on code.

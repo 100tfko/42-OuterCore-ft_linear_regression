@@ -84,8 +84,17 @@ python evaluate_model.py datasets/data.csv model.json
 
 - **1 feature:** mileage (km) + 1 bias = 2 weights (θ0, θ1)
 - **Normalization:** z-score on training mileage; same mean/std applied at prediction time
-- **Optimization:** batch gradient descent, 10000 iterations, learning rate α=0.01
+- **Optimization:** batch gradient descent
 - **Loss:** Mean Squared Error, tracked per iteration during training
+
+## Training Parameters
+
+The training settings are defined in `setup.py`:
+
+- **Learning rate (`ALPHA = 0.01`):** controls the size of each gradient descent update.
+- **Maximum iterations (`MAX_ITERATIONS = 10000`):** sets the upper limit on training updates.
+
+Training starts with both weights set to zero.
 
 ## Key Implementation Details
 
