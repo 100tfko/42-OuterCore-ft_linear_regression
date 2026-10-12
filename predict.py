@@ -29,7 +29,11 @@ if __name__ == '__main__':
     mileage = float(input("Enter a mileage: "))
 
     # Normalize
-    normalized_mileage = normalize_single_value(mileage, mean_mileage, std_mileage)
+    normalized_mileage = normalize_single_value(
+        mileage,
+        mean_mileage,
+        std_mileage
+    )
 
     # Predict
     price = hypothesis(normalized_mileage, theta0, theta1)

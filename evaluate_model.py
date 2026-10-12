@@ -12,7 +12,8 @@ from tools import (
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
-        print("Usage: python evaluate_model.py <dataset_file_name.csv> <model.json>",
+        print("Usage: python evaluate_model.py "
+              "<dataset_file_name.csv> <model.json>",
               file=sys.stderr)
         sys.exit(1)
     data = load_csv(sys.argv[1])
@@ -37,7 +38,11 @@ if __name__ == '__main__':
 
     predicted_prices = []
     for mileage in mileages:
-        normalized_mileage = normalize_single_value(mileage, mean_mileage, std_mileage)
+        normalized_mileage = normalize_single_value(
+            mileage,
+            mean_mileage,
+            std_mileage
+        )
         predicted_prices.append(hypothesis(normalized_mileage, theta0, theta1))
 
     mse = mse_loss(prices, predicted_prices)

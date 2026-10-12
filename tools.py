@@ -2,7 +2,7 @@ import pandas as pd
 import math
 from pathlib import Path
 from typing import Optional
-from setup import MAX_ITERATIONS, EPSILON
+from setup import MAX_ITERATIONS, EPSILON, ALPHA
 
 
 def load_csv(path: str) -> Optional[pd.DataFrame]:
@@ -27,6 +27,7 @@ def load_csv(path: str) -> Optional[pd.DataFrame]:
 
     return df
 
+
 def mean(col: list[float]) -> float:
     """Return the arithmetic mean of a column."""
     return (sum(col) / len(col))
@@ -38,11 +39,13 @@ def std(col: list[float]) -> float:
     variance = sum([(x - mean_value) ** 2 for x in col]) / (len(col) - 1)
     return math.sqrt(variance)
 
+
 def hypothesis(mileage: float, theta0: float, theta1: float) -> float:
     """Return the estimated price for a determined mileage."""
     estimate = theta0 + (theta1 * mileage)
     return estimate
     # h(x) = θ0 + θ1 * x
+
 
 def mse_loss(y_true: list[float], y_pred: list[float]) -> float:
     """Returns the Mean Squared Error for the prediction model."""
@@ -60,37 +63,44 @@ def mse_loss(y_true: list[float], y_pred: list[float]) -> float:
 #   mse = sum(squared_errors) / len(y_true)
 
 
-def gradient_descent(mileages: list[float], prices: list[float], theta0: float, theta1: float, alpha: float, iterations: int) -> tuple[float, float, list[float]]:
+def gradient_descent(
+        mileages: list[float],
+        prices: list[float],
+        theta0: float,
+        theta1: float
+) -> tuple[float, float, list[float]]:
     """Gradient descent method to adjust thetas of the model."""
     loss_history = []
     previous_loss = float('inf')
-    for iteration in range(iterations):
+    for iteration in range(MAX_ITERATIONS):
         tmp0 = 0
         for i in range(len(prices)):
-            tmp0 += hypothesis(mileages[i], theta0, theta1) - prices[i]
-        tmp0 = tmp0 * alpha * 1/len(prices)
+            error = hypothesis(mileages[i], theta0, theta1) - prices[i]
+            tmp0 += error
+        tmp0 = tmp0 * ALPHA * 1/len(prices)
 
         tmp1 = 0
         for i in range(len(prices)):
-            tmp1 += (hypothesis(mileages[i], theta0, theta1) - prices[i]) * mileages[i]
-        tmp1 = tmp1 * alpha * 1/len(prices)
+            error = hypothesis(mileages[i], theta0, theta1) - prices[i]
+            tmp1 += error * mileages[i]
+        tmp1 = tmp1 * ALPHA * 1/len(prices)
 
         theta0 -= tmp0
         theta1 -= tmp1
 
-            # Compute and track loss
+        # Compute and track loss
         predictions = [hypothesis(m, theta0, theta1) for m in mileages]
         loss = mse_loss(prices, predictions)
         loss_history.append(loss)
-        
+
         if previous_loss - loss < EPSILON:
             break          # improvement too small → converged
         previous_loss = loss
     return (theta0, theta1, loss_history)
-    
 
     # Returns: (final_theta0, final_theta1, loss_history)
     # Simultaneously update θ0 and θ1 using the formulas from the spec
+
 
 def r_squared(y_true: list[float], y_pred: list[float]) -> float:
     """Return the R² score: 1 - SS_res / SS_tot."""
@@ -104,9 +114,11 @@ def r_squared(y_true: list[float], y_pred: list[float]) -> float:
         return 0
     return 1 - ss_res / ss_tot
 
+
 def rmse(y_true: list[float], y_pred: list[float]) -> float:
     """Return the Root Mean Squared Error."""
     return math.sqrt(mse_loss(y_true, y_pred))
+
 
 def normalize_single_value(value: float, mean: float, std: float) -> float:
     """Normalize a single value."""

@@ -1,6 +1,5 @@
 import json
 import sys
-from setup import MAX_ITERATIONS, ALPHA
 from tools import (
     load_csv,
     gradient_descent,
@@ -32,13 +31,14 @@ if __name__ == '__main__':
     theta0 = 0.0
     theta1 = 0.0
 
-    theta0, theta1, loss_history = gradient_descent(normalized_mileages, prices, theta0, theta1, ALPHA, MAX_ITERATIONS)
+    theta0, theta1, loss_history = gradient_descent(
+        normalized_mileages, prices, theta0, theta1)
 
     model_data = {
-    "theta0": theta0,
-    "theta1": theta1,
-    "mileage_mean": mileage_mean,
-    "mileage_std": mileage_std
+        "theta0": theta0,
+        "theta1": theta1,
+        "mileage_mean": mileage_mean,
+        "mileage_std": mileage_std
     }
 
     with open("model.json", "w") as file:

@@ -10,7 +10,8 @@ from tools import (
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
-        print("Usage: python plot_line.py <dataset_file_name.csv> <model.json>")
+        print("Usage: python plot_line.py "
+              "<dataset_file_name.csv> <model.json>")
         sys.exit(1)
     data = load_csv(sys.argv[1])
     if data is None:
@@ -34,10 +35,14 @@ if __name__ == '__main__':
 
     predicted_prices = []
     for mileage in mileages:
-        normalized_mileage = normalize_single_value(mileage, mean_mileage, std_mileage)
+        normalized_mileage = normalize_single_value(
+            mileage,
+            mean_mileage,
+            std_mileage
+        )
         predicted_price = hypothesis(normalized_mileage, theta0, theta1)
         predicted_prices.append(predicted_price)
-        
+
     points = sorted(zip(mileages, predicted_prices))
     sorted_mileages = [point[0] for point in points]
     sorted_predictions = [point[1] for point in points]
