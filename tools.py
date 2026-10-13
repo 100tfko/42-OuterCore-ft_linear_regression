@@ -102,6 +102,20 @@ def gradient_descent(
     # Simultaneously update θ0 and θ1 using the formulas from the spec
 
 
+def correlation(x: list[float], y: list[float]) -> float:
+    """Return the Pearson correlation coefficient r between x and y."""
+    mx = mean(x)
+    my = mean(y)
+    numerator = sum((xi - mx) * (yi - my) for xi, yi in zip(x, y))
+    denominator = math.sqrt(
+        sum((xi - mx) ** 2 for xi in x) *
+        sum((yi - my) ** 2 for yi in y)
+    )
+    if denominator == 0:
+        return 0
+    return numerator / denominator
+
+
 def r_squared(y_true: list[float], y_pred: list[float]) -> float:
     """Return the R² score: 1 - SS_res / SS_tot."""
     y_mean = mean(y_true)

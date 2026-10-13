@@ -6,7 +6,8 @@ from tools import (
     normalize_single_value,
     mse_loss,
     rmse,
-    r_squared
+    r_squared,
+    correlation
 )
 
 
@@ -49,3 +50,7 @@ if __name__ == '__main__':
     print(f"MSE:  {mse:,.2f}")
     print(f"RMSE: {rmse(prices, predicted_prices):,.2f}")
     print(f"R²:   {r_squared(prices, predicted_prices):.4f}")
+
+    r = correlation(mileages, prices)
+    print(f"r:    {r:.4f}")
+    print(f"r²:   {r ** 2:.4f}")
